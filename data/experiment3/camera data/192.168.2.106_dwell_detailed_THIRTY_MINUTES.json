@@ -1,0 +1,664 @@
+{
+  "sensor-time" : {
+    "timezone" : "UTC",
+    "time" : "2020-07-09T13:03:12Z"
+  },
+  "status" : {
+    "code" : "OK"
+  },
+  "content" : {
+    "element" : [ {
+      "element-id" : 0,
+      "element-name" : "Zone la_stand",
+      "sensor-type" : "SINGLE_SENSOR",
+      "data-type" : "ZONE",
+      "from" : "2020-07-03T07:00:00Z",
+      "to" : "2020-07-03T13:00:00Z",
+      "resolution" : "THIRTY_MINUTES",
+      "meta" : {
+        "bin" : [ {
+          "label" : "created_in"
+        }, {
+          "label" : "deleted_in"
+        }, {
+          "label" : "created_deleted_in"
+        }, {
+          "label" : "bin_00",
+          "max" : "10"
+        }, {
+          "label" : "bin_01",
+          "min" : "10",
+          "max" : "189"
+        }, {
+          "label" : "bin_02",
+          "min" : "189",
+          "max" : "368"
+        }, {
+          "label" : "bin_03",
+          "min" : "368",
+          "max" : "547"
+        }, {
+          "label" : "bin_04",
+          "min" : "547",
+          "max" : "726"
+        }, {
+          "label" : "bin_05",
+          "min" : "726",
+          "max" : "905"
+        }, {
+          "label" : "bin_06",
+          "min" : "905",
+          "max" : "1084"
+        }, {
+          "label" : "bin_07",
+          "min" : "1084",
+          "max" : "1263"
+        }, {
+          "label" : "bin_08",
+          "min" : "1263",
+          "max" : "1442"
+        }, {
+          "label" : "bin_09",
+          "min" : "1442",
+          "max" : "1621"
+        }, {
+          "label" : "bin_10",
+          "min" : "1621",
+          "max" : "1800"
+        }, {
+          "label" : "bin_11",
+          "min" : "1800"
+        } ]
+      },
+      "measurement" : [ {
+        "from" : "2020-07-03T07:00:00Z",
+        "to" : "2020-07-03T07:30:00Z",
+        "value" : [ {
+          "value" : 15,
+          "label" : "created_in"
+        }, {
+          "value" : 13,
+          "label" : "deleted_in"
+        }, {
+          "value" : 13,
+          "label" : "created_deleted_in"
+        }, {
+          "value" : 4,
+          "label" : "bin_00"
+        }, {
+          "value" : 11,
+          "label" : "bin_01"
+        }, {
+          "value" : 3,
+          "label" : "bin_02"
+        }, {
+          "value" : 0,
+          "label" : "bin_03"
+        }, {
+          "value" : 0,
+          "label" : "bin_04"
+        }, {
+          "value" : 0,
+          "label" : "bin_05"
+        }, {
+          "value" : 0,
+          "label" : "bin_06"
+        }, {
+          "value" : 0,
+          "label" : "bin_07"
+        }, {
+          "value" : 0,
+          "label" : "bin_08"
+        }, {
+          "value" : 0,
+          "label" : "bin_09"
+        }, {
+          "value" : 0,
+          "label" : "bin_10"
+        }, {
+          "value" : 0,
+          "label" : "bin_11"
+        } ]
+      }, {
+        "from" : "2020-07-03T07:30:00Z",
+        "to" : "2020-07-03T08:00:00Z",
+        "value" : [ {
+          "value" : 4,
+          "label" : "created_in"
+        }, {
+          "value" : 2,
+          "label" : "deleted_in"
+        }, {
+          "value" : 4,
+          "label" : "created_deleted_in"
+        }, {
+          "value" : 1,
+          "label" : "bin_00"
+        }, {
+          "value" : 1,
+          "label" : "bin_01"
+        }, {
+          "value" : 0,
+          "label" : "bin_02"
+        }, {
+          "value" : 0,
+          "label" : "bin_03"
+        }, {
+          "value" : 0,
+          "label" : "bin_04"
+        }, {
+          "value" : 0,
+          "label" : "bin_05"
+        }, {
+          "value" : 0,
+          "label" : "bin_06"
+        }, {
+          "value" : 0,
+          "label" : "bin_07"
+        }, {
+          "value" : 0,
+          "label" : "bin_08"
+        }, {
+          "value" : 0,
+          "label" : "bin_09"
+        }, {
+          "value" : 0,
+          "label" : "bin_10"
+        }, {
+          "value" : 0,
+          "label" : "bin_11"
+        } ]
+      }, {
+        "from" : "2020-07-03T08:00:00Z",
+        "to" : "2020-07-03T08:30:00Z",
+        "value" : [ {
+          "value" : 19,
+          "label" : "created_in"
+        }, {
+          "value" : 16,
+          "label" : "deleted_in"
+        }, {
+          "value" : 28,
+          "label" : "created_deleted_in"
+        }, {
+          "value" : 4,
+          "label" : "bin_00"
+        }, {
+          "value" : 7,
+          "label" : "bin_01"
+        }, {
+          "value" : 0,
+          "label" : "bin_02"
+        }, {
+          "value" : 0,
+          "label" : "bin_03"
+        }, {
+          "value" : 0,
+          "label" : "bin_04"
+        }, {
+          "value" : 0,
+          "label" : "bin_05"
+        }, {
+          "value" : 0,
+          "label" : "bin_06"
+        }, {
+          "value" : 0,
+          "label" : "bin_07"
+        }, {
+          "value" : 0,
+          "label" : "bin_08"
+        }, {
+          "value" : 0,
+          "label" : "bin_09"
+        }, {
+          "value" : 0,
+          "label" : "bin_10"
+        }, {
+          "value" : 0,
+          "label" : "bin_11"
+        } ]
+      }, {
+        "from" : "2020-07-03T08:30:00Z",
+        "to" : "2020-07-03T09:00:00Z",
+        "value" : [ {
+          "value" : 13,
+          "label" : "created_in"
+        }, {
+          "value" : 6,
+          "label" : "deleted_in"
+        }, {
+          "value" : 58,
+          "label" : "created_deleted_in"
+        }, {
+          "value" : 2,
+          "label" : "bin_00"
+        }, {
+          "value" : 6,
+          "label" : "bin_01"
+        }, {
+          "value" : 0,
+          "label" : "bin_02"
+        }, {
+          "value" : 0,
+          "label" : "bin_03"
+        }, {
+          "value" : 0,
+          "label" : "bin_04"
+        }, {
+          "value" : 0,
+          "label" : "bin_05"
+        }, {
+          "value" : 0,
+          "label" : "bin_06"
+        }, {
+          "value" : 0,
+          "label" : "bin_07"
+        }, {
+          "value" : 0,
+          "label" : "bin_08"
+        }, {
+          "value" : 0,
+          "label" : "bin_09"
+        }, {
+          "value" : 0,
+          "label" : "bin_10"
+        }, {
+          "value" : 0,
+          "label" : "bin_11"
+        } ]
+      }, {
+        "from" : "2020-07-03T09:00:00Z",
+        "to" : "2020-07-03T09:30:00Z",
+        "value" : [ {
+          "value" : 8,
+          "label" : "created_in"
+        }, {
+          "value" : 7,
+          "label" : "deleted_in"
+        }, {
+          "value" : 44,
+          "label" : "created_deleted_in"
+        }, {
+          "value" : 4,
+          "label" : "bin_00"
+        }, {
+          "value" : 1,
+          "label" : "bin_01"
+        }, {
+          "value" : 1,
+          "label" : "bin_02"
+        }, {
+          "value" : 0,
+          "label" : "bin_03"
+        }, {
+          "value" : 1,
+          "label" : "bin_04"
+        }, {
+          "value" : 0,
+          "label" : "bin_05"
+        }, {
+          "value" : 0,
+          "label" : "bin_06"
+        }, {
+          "value" : 0,
+          "label" : "bin_07"
+        }, {
+          "value" : 0,
+          "label" : "bin_08"
+        }, {
+          "value" : 0,
+          "label" : "bin_09"
+        }, {
+          "value" : 0,
+          "label" : "bin_10"
+        }, {
+          "value" : 0,
+          "label" : "bin_11"
+        } ]
+      }, {
+        "from" : "2020-07-03T09:30:00Z",
+        "to" : "2020-07-03T10:00:00Z",
+        "value" : [ {
+          "value" : 17,
+          "label" : "created_in"
+        }, {
+          "value" : 18,
+          "label" : "deleted_in"
+        }, {
+          "value" : 82,
+          "label" : "created_deleted_in"
+        }, {
+          "value" : 4,
+          "label" : "bin_00"
+        }, {
+          "value" : 8,
+          "label" : "bin_01"
+        }, {
+          "value" : 0,
+          "label" : "bin_02"
+        }, {
+          "value" : 0,
+          "label" : "bin_03"
+        }, {
+          "value" : 0,
+          "label" : "bin_04"
+        }, {
+          "value" : 0,
+          "label" : "bin_05"
+        }, {
+          "value" : 0,
+          "label" : "bin_06"
+        }, {
+          "value" : 0,
+          "label" : "bin_07"
+        }, {
+          "value" : 0,
+          "label" : "bin_08"
+        }, {
+          "value" : 0,
+          "label" : "bin_09"
+        }, {
+          "value" : 0,
+          "label" : "bin_10"
+        }, {
+          "value" : 0,
+          "label" : "bin_11"
+        } ]
+      }, {
+        "from" : "2020-07-03T10:00:00Z",
+        "to" : "2020-07-03T10:30:00Z",
+        "value" : [ {
+          "value" : 9,
+          "label" : "created_in"
+        }, {
+          "value" : 6,
+          "label" : "deleted_in"
+        }, {
+          "value" : 41,
+          "label" : "created_deleted_in"
+        }, {
+          "value" : 1,
+          "label" : "bin_00"
+        }, {
+          "value" : 6,
+          "label" : "bin_01"
+        }, {
+          "value" : 1,
+          "label" : "bin_02"
+        }, {
+          "value" : 0,
+          "label" : "bin_03"
+        }, {
+          "value" : 1,
+          "label" : "bin_04"
+        }, {
+          "value" : 0,
+          "label" : "bin_05"
+        }, {
+          "value" : 0,
+          "label" : "bin_06"
+        }, {
+          "value" : 0,
+          "label" : "bin_07"
+        }, {
+          "value" : 0,
+          "label" : "bin_08"
+        }, {
+          "value" : 0,
+          "label" : "bin_09"
+        }, {
+          "value" : 0,
+          "label" : "bin_10"
+        }, {
+          "value" : 0,
+          "label" : "bin_11"
+        } ]
+      }, {
+        "from" : "2020-07-03T10:30:00Z",
+        "to" : "2020-07-03T11:00:00Z",
+        "value" : [ {
+          "value" : 5,
+          "label" : "created_in"
+        }, {
+          "value" : 9,
+          "label" : "deleted_in"
+        }, {
+          "value" : 47,
+          "label" : "created_deleted_in"
+        }, {
+          "value" : 1,
+          "label" : "bin_00"
+        }, {
+          "value" : 1,
+          "label" : "bin_01"
+        }, {
+          "value" : 1,
+          "label" : "bin_02"
+        }, {
+          "value" : 0,
+          "label" : "bin_03"
+        }, {
+          "value" : 0,
+          "label" : "bin_04"
+        }, {
+          "value" : 0,
+          "label" : "bin_05"
+        }, {
+          "value" : 0,
+          "label" : "bin_06"
+        }, {
+          "value" : 0,
+          "label" : "bin_07"
+        }, {
+          "value" : 0,
+          "label" : "bin_08"
+        }, {
+          "value" : 0,
+          "label" : "bin_09"
+        }, {
+          "value" : 0,
+          "label" : "bin_10"
+        }, {
+          "value" : 0,
+          "label" : "bin_11"
+        } ]
+      }, {
+        "from" : "2020-07-03T11:00:00Z",
+        "to" : "2020-07-03T11:30:00Z",
+        "value" : [ {
+          "value" : 8,
+          "label" : "created_in"
+        }, {
+          "value" : 3,
+          "label" : "deleted_in"
+        }, {
+          "value" : 25,
+          "label" : "created_deleted_in"
+        }, {
+          "value" : 1,
+          "label" : "bin_00"
+        }, {
+          "value" : 0,
+          "label" : "bin_01"
+        }, {
+          "value" : 1,
+          "label" : "bin_02"
+        }, {
+          "value" : 0,
+          "label" : "bin_03"
+        }, {
+          "value" : 0,
+          "label" : "bin_04"
+        }, {
+          "value" : 0,
+          "label" : "bin_05"
+        }, {
+          "value" : 0,
+          "label" : "bin_06"
+        }, {
+          "value" : 0,
+          "label" : "bin_07"
+        }, {
+          "value" : 0,
+          "label" : "bin_08"
+        }, {
+          "value" : 0,
+          "label" : "bin_09"
+        }, {
+          "value" : 0,
+          "label" : "bin_10"
+        }, {
+          "value" : 0,
+          "label" : "bin_11"
+        } ]
+      }, {
+        "from" : "2020-07-03T11:30:00Z",
+        "to" : "2020-07-03T12:00:00Z",
+        "value" : [ {
+          "value" : 4,
+          "label" : "created_in"
+        }, {
+          "value" : 3,
+          "label" : "deleted_in"
+        }, {
+          "value" : 7,
+          "label" : "created_deleted_in"
+        }, {
+          "value" : 0,
+          "label" : "bin_00"
+        }, {
+          "value" : 3,
+          "label" : "bin_01"
+        }, {
+          "value" : 0,
+          "label" : "bin_02"
+        }, {
+          "value" : 0,
+          "label" : "bin_03"
+        }, {
+          "value" : 0,
+          "label" : "bin_04"
+        }, {
+          "value" : 0,
+          "label" : "bin_05"
+        }, {
+          "value" : 0,
+          "label" : "bin_06"
+        }, {
+          "value" : 0,
+          "label" : "bin_07"
+        }, {
+          "value" : 0,
+          "label" : "bin_08"
+        }, {
+          "value" : 0,
+          "label" : "bin_09"
+        }, {
+          "value" : 0,
+          "label" : "bin_10"
+        }, {
+          "value" : 0,
+          "label" : "bin_11"
+        } ]
+      }, {
+        "from" : "2020-07-03T12:00:00Z",
+        "to" : "2020-07-03T12:30:00Z",
+        "value" : [ {
+          "value" : 4,
+          "label" : "created_in"
+        }, {
+          "value" : 7,
+          "label" : "deleted_in"
+        }, {
+          "value" : 7,
+          "label" : "created_deleted_in"
+        }, {
+          "value" : 0,
+          "label" : "bin_00"
+        }, {
+          "value" : 0,
+          "label" : "bin_01"
+        }, {
+          "value" : 2,
+          "label" : "bin_02"
+        }, {
+          "value" : 0,
+          "label" : "bin_03"
+        }, {
+          "value" : 0,
+          "label" : "bin_04"
+        }, {
+          "value" : 0,
+          "label" : "bin_05"
+        }, {
+          "value" : 0,
+          "label" : "bin_06"
+        }, {
+          "value" : 0,
+          "label" : "bin_07"
+        }, {
+          "value" : 0,
+          "label" : "bin_08"
+        }, {
+          "value" : 0,
+          "label" : "bin_09"
+        }, {
+          "value" : 0,
+          "label" : "bin_10"
+        }, {
+          "value" : 0,
+          "label" : "bin_11"
+        } ]
+      }, {
+        "from" : "2020-07-03T12:30:00Z",
+        "to" : "2020-07-03T13:00:00Z",
+        "value" : [ {
+          "value" : 6,
+          "label" : "created_in"
+        }, {
+          "value" : 5,
+          "label" : "deleted_in"
+        }, {
+          "value" : 10,
+          "label" : "created_deleted_in"
+        }, {
+          "value" : 4,
+          "label" : "bin_00"
+        }, {
+          "value" : 5,
+          "label" : "bin_01"
+        }, {
+          "value" : 1,
+          "label" : "bin_02"
+        }, {
+          "value" : 0,
+          "label" : "bin_03"
+        }, {
+          "value" : 0,
+          "label" : "bin_04"
+        }, {
+          "value" : 0,
+          "label" : "bin_05"
+        }, {
+          "value" : 0,
+          "label" : "bin_06"
+        }, {
+          "value" : 0,
+          "label" : "bin_07"
+        }, {
+          "value" : 0,
+          "label" : "bin_08"
+        }, {
+          "value" : 0,
+          "label" : "bin_09"
+        }, {
+          "value" : 0,
+          "label" : "bin_10"
+        }, {
+          "value" : 0,
+          "label" : "bin_11"
+        } ]
+      } ]
+    } ]
+  }
+}

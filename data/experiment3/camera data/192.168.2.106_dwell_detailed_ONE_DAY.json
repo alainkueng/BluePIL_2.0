@@ -1,0 +1,125 @@
+{
+  "sensor-time" : {
+    "timezone" : "UTC",
+    "time" : "2020-07-09T13:03:12Z"
+  },
+  "status" : {
+    "code" : "OK"
+  },
+  "content" : {
+    "element" : [ {
+      "element-id" : 0,
+      "element-name" : "Zone la_stand",
+      "sensor-type" : "SINGLE_SENSOR",
+      "data-type" : "ZONE",
+      "from" : "2020-07-03T00:00:00Z",
+      "to" : "2020-07-04T00:00:00Z",
+      "resolution" : "ONE_DAY",
+      "meta" : {
+        "bin" : [ {
+          "label" : "created_in"
+        }, {
+          "label" : "deleted_in"
+        }, {
+          "label" : "created_deleted_in"
+        }, {
+          "label" : "bin_00",
+          "max" : "10"
+        }, {
+          "label" : "bin_01",
+          "min" : "10",
+          "max" : "189"
+        }, {
+          "label" : "bin_02",
+          "min" : "189",
+          "max" : "368"
+        }, {
+          "label" : "bin_03",
+          "min" : "368",
+          "max" : "547"
+        }, {
+          "label" : "bin_04",
+          "min" : "547",
+          "max" : "726"
+        }, {
+          "label" : "bin_05",
+          "min" : "726",
+          "max" : "905"
+        }, {
+          "label" : "bin_06",
+          "min" : "905",
+          "max" : "1084"
+        }, {
+          "label" : "bin_07",
+          "min" : "1084",
+          "max" : "1263"
+        }, {
+          "label" : "bin_08",
+          "min" : "1263",
+          "max" : "1442"
+        }, {
+          "label" : "bin_09",
+          "min" : "1442",
+          "max" : "1621"
+        }, {
+          "label" : "bin_10",
+          "min" : "1621",
+          "max" : "1800"
+        }, {
+          "label" : "bin_11",
+          "min" : "1800"
+        } ]
+      },
+      "measurement" : [ {
+        "from" : "2020-07-03T00:00:00Z",
+        "to" : "2020-07-04T00:00:00Z",
+        "value" : [ {
+          "value" : 141,
+          "label" : "created_in"
+        }, {
+          "value" : 121,
+          "label" : "deleted_in"
+        }, {
+          "value" : 430,
+          "label" : "created_deleted_in"
+        }, {
+          "value" : 35,
+          "label" : "bin_00"
+        }, {
+          "value" : 71,
+          "label" : "bin_01"
+        }, {
+          "value" : 12,
+          "label" : "bin_02"
+        }, {
+          "value" : 0,
+          "label" : "bin_03"
+        }, {
+          "value" : 2,
+          "label" : "bin_04"
+        }, {
+          "value" : 0,
+          "label" : "bin_05"
+        }, {
+          "value" : 0,
+          "label" : "bin_06"
+        }, {
+          "value" : 0,
+          "label" : "bin_07"
+        }, {
+          "value" : 0,
+          "label" : "bin_08"
+        }, {
+          "value" : 0,
+          "label" : "bin_09"
+        }, {
+          "value" : 0,
+          "label" : "bin_10"
+        }, {
+          "value" : 0,
+          "label" : "bin_11"
+        } ]
+      } ]
+    } ]
+  }
+}

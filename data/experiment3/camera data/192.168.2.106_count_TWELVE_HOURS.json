@@ -1,0 +1,35 @@
+{
+  "sensor-time" : {
+    "timezone" : "UTC",
+    "time" : "2020-07-09T13:03:08Z"
+  },
+  "status" : {
+    "code" : "OK"
+  },
+  "content" : {
+    "element" : [ {
+      "element-id" : 0,
+      "element-name" : "Zone la_stand",
+      "sensor-type" : "SINGLE_SENSOR",
+      "data-type" : "ZONE",
+      "from" : "2020-07-03T00:00:00Z",
+      "to" : "2020-07-04T00:00:00Z",
+      "resolution" : "TWELVE_HOURS",
+      "measurement" : [ {
+        "from" : "2020-07-03T00:00:00Z",
+        "to" : "2020-07-03T12:00:00Z",
+        "value" : [ {
+          "value" : 2,
+          "label" : "count"
+        } ]
+      }, {
+        "from" : "2020-07-03T12:00:00Z",
+        "to" : "2020-07-04T00:00:00Z",
+        "value" : [ {
+          "value" : 0,
+          "label" : "count"
+        } ]
+      } ]
+    } ]
+  }
+}

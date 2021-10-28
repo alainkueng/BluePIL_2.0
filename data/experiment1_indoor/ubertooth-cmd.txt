@@ -1,0 +1,1 @@
+ubertooth-rx -c 40 -t ${TIMEOUT_S} -q D1.pcap -U ${D1} & ubertooth-rx -c 40 -t ${TIMEOUT_S} -q D2.pcap -U ${D2} & ubertooth-rx -c 40 -t ${TIMEOUT_S} -q D3.pcap -U ${D3} & ubertooth-rx -c 40 -t ${TIMEOUT_S} -q D4.pcap -U ${D4} &
