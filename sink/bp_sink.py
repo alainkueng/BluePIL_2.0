@@ -99,6 +99,7 @@ class BpSink:
         try:
             asyncio.run(self._startup())
         except KeyboardInterrupt:
+            print('Stopping the nodes')
             self.stop()
 
     def stop(self):
@@ -175,6 +176,7 @@ class BpSink:
         await self._stop_nodes()
         for csvfile in self.csvfiles:
             csvfile.close()
+        print('Sink shuts down')
 
     async def _stop_nodes(self):
 
@@ -184,6 +186,7 @@ class BpSink:
 
         tasks = [stop_node(u_config) for u_config in self._ubertooth_connections]
         await asyncio.wait(tasks)
+        print('Nodes terminated')
 
     @staticmethod
     async def _send_on_config_bus(message: ConfigMsg, u_config):

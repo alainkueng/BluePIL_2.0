@@ -1,11 +1,11 @@
 import socket
+import time
+
 from run_node import main
 
 host = ''
 port = 5560
-
-storedValue = 'YOOYOO'
-
+sleep = False
 
 def setupServer():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -27,13 +27,6 @@ def setupConnection():
 
 def start_node():
     main()
-    reply = 'Stopped Node'
-    return reply
-
-
-def REPEAT(data_message):
-    reply = data_message[1]
-    return reply
 
 
 def dataTransfer(conn):
@@ -46,9 +39,10 @@ def dataTransfer(conn):
         data_message = data.split(' ', 1)
         command = data_message[0]
         if command == 'START_NODE':
-            reply = start_node()
-        elif command == 'REPEAT':
-            reply = REPEAT(data_message)
+            print('Started Node')
+            start_node()
+            time.sleep(2)
+            reply = 'Node Terminated, ready for another Task'
         elif command == 'EXIT':
             print('Client left')
             break

@@ -14,6 +14,7 @@ sudo rm -rf Python-3.8.3
 sudo rm -rf Python-3.8.3.tgz
 sudo /sbin/ldconfig
 
+cd /home/pi/bluepil-master
 sudo python3.8 -m venv venv
 source venv/bin/activate
 sudo pip3.8 install Cython

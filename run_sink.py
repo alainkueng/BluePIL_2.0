@@ -1,7 +1,8 @@
 from common import Mode
 from sink.bp_sink import main
 
-if __name__ == '__main__':
+
+def run_sink():
     import json
 
     with open("bp.json") as f:
