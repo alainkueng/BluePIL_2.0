@@ -105,6 +105,7 @@ class BpSink:
     def stop(self):
         asyncio.run(self._shutdown())
 
+
     async def _startup(self):
         self._servers = []
         if self._mode == Mode.POSITIONING:

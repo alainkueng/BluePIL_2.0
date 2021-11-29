@@ -5,7 +5,7 @@ from run_node import main
 
 host = ''
 port = 5560
-sleep = False
+
 
 def setupServer():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -41,8 +41,6 @@ def dataTransfer(conn):
         if command == 'START_NODE':
             print('Started Node')
             start_node()
-            time.sleep(2)
-            reply = 'Node Terminated, ready for another Task'
         elif command == 'EXIT':
             print('Client left')
             break
@@ -52,9 +50,7 @@ def dataTransfer(conn):
             break
         else:
             reply = 'Unknown Command'
-        # Send the reply back to the client
-        conn.sendall(str.encode(reply))
-        print('Data Sent!')
+
     conn.close()
 
 

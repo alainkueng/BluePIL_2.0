@@ -47,11 +47,13 @@ class SinkClient:
                 self.send(command)
                 break
             elif command == 'START_NODE':
-                self.send(command)
+                self.send_once(command)
                 self.start_run_sink()
                 break
-            self.send(command)
+            else:
+                self.send(command)
         self.close()
+
 
     def send(self, command):
         for s in self.connections.values():
@@ -68,6 +70,9 @@ class SinkClient:
         time.sleep(6)
         run_sink()
 
+    def send_once(self, command):
+        for s in self.connections.values():
+            s.send(str.encode(command))
 
 
 SinkClient().start()
