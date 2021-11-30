@@ -61,7 +61,7 @@ class BpSink:
     def _init_quadlateration(self):
 
         def sink_to_file(file, writer, data):
-            print(f"writing data {data}")
+            #print(f"writing data {data}")
             writer.writerow([data["position"][0], data["position"][1], data["timestamp"], data["LAP"]])
             file.flush()
 
@@ -78,7 +78,7 @@ class BpSink:
 
     def _init_raw(self):
         def sink_to_file(file, writer, data):
-            print(f"writing data {data}")
+            #print(f"writing data {data}")
             writer.writerow(data)
             file.flush()
 
@@ -88,7 +88,7 @@ class BpSink:
             csvwriter = csv.writer(csvfile)
             self.csvfiles.append(csvfile)
             csvwriter.writerow(csvcols)
-            print(f"setting up writer for {connection.hostname}")
+            #print(f"setting up writer for {connection.hostname}")
             connection.datastream.sink(lambda x, y=csvwriter, z=csvfile: sink_to_file(z, y, x))
 
     def _init_raw_local(self):
@@ -177,7 +177,7 @@ class BpSink:
         await self._stop_nodes()
         for csvfile in self.csvfiles:
             csvfile.close()
-        print('Sink shuts down')
+        #print('Sink shuts down')
 
     async def _stop_nodes(self):
 
@@ -187,17 +187,17 @@ class BpSink:
 
         tasks = [stop_node(u_config) for u_config in self._ubertooth_connections]
         await asyncio.wait(tasks)
-        print('Nodes terminated')
+        #print('Nodes terminated')
 
     @staticmethod
     async def _send_on_config_bus(message: ConfigMsg, u_config):
 
         _, config_writer = await asyncio.open_connection(u_config.hostname, CONFIG_PORT)
         msg_enc = encode(message)
-        print(f'Sending configuration: {message}')
+        #print(f'Sending configuration: {message}')
         config_writer.write(msg_enc)
         await config_writer.drain()
-        print(f'sent message: {message}')
+        #print(f'sent message: {message}')
         config_writer.close()
 
     async def _init_registration_buses(self):
@@ -208,7 +208,7 @@ class BpSink:
                 message = decode(data)
                 stream.emit(message)
 
-            print(f"Starting Registration Server on port {port}")
+            #print(f"Starting Registration Server on port {port}")
             self._servers.append(await asyncio.start_server(handle_reg_msg, port=port))
 
         tasks = [init_registration_bus(uc.regport, uc.regstream) for uc in self._ubertooth_connections]
@@ -223,7 +223,7 @@ class BpSink:
                 message = decode(data)
                 stream.emit(message)
 
-            print(f"Starting Data Server on port {port}")
+            #print(f"Starting Data Server on port {port}")
             self._servers.append(await asyncio.start_server(handle_data_msg, port=port))
 
         tasks = [init_data_bus(uc.dataport, uc.datastream) for uc in self._ubertooth_connections]

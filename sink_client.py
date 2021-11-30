@@ -1,7 +1,7 @@
 import socket
 import time
-
 from run_sink import run_sink
+
 
 def get_ips():
     import json
@@ -47,13 +47,15 @@ class SinkClient:
                 self.send(command)
                 break
             elif command == 'START_NODE':
-                self.send_once(command)
-                self.start_run_sink()
+                self.send(command)
+                time.sleep(2)
+                print('starting process')
+                start_run_sink()
+                print('Ending process, please restart Application')
                 break
             else:
                 self.send(command)
         self.close()
-
 
     def send(self, command):
         for s in self.connections.values():
@@ -65,14 +67,9 @@ class SinkClient:
         for s in self.connections.values():
             s.close()
 
-    def start_run_sink(self):
-        print('Wait for the nodes to start, sleeping for 6 seconds')
-        time.sleep(6)
-        run_sink()
 
-    def send_once(self, command):
-        for s in self.connections.values():
-            s.send(str.encode(command))
+def start_run_sink():
+    run_sink()
 
 
 SinkClient().start()
