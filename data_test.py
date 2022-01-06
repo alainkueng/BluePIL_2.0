@@ -12,6 +12,15 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 from matplotlib.figure import Figure
 import matplotlib.animation as animation
 
+
+def read_positions():
+    df = pd.read_csv('positions.csv')
+    df["timestamp"] = df["timestamp"].astype('datetime64[ns]')
+    df.set_index("timestamp", inplace=True, drop=False)
+    df.sort_index(inplace=True)
+    return df
+
+
 LARGE_FONT = ("Verdana", 12)
 NORMAL_FONT = ("Verdana", 10)
 SMALL_FONT = ("Verdana", 8)
@@ -42,6 +51,14 @@ plot_lim_x = (room_lim_x[0] - plot_padding, room_lim_x[1] + plot_padding)
 plot_lim_y = (room_lim_y[0] - plot_padding, room_lim_y[1] + plot_padding)
 
 kalman = False
+plot_all = False
+
+pos_df = read_positions()  # not kalman applied yet
+
+unique_laps = pos_df['LAP'].unique()
+is_LAP = pos_df['LAP'] == unique_laps[0]
+
+pos_df = pos_df.tail(20)
 
 
 def popupmsg(msg):
@@ -94,7 +111,6 @@ class GUI(tk.Tk):
 class GraphPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-
         # Title
         label = ttk.Label(self, text="Graph Page", font=LARGE_FONT)
         label.pack(pady=10, padx=10)
@@ -120,6 +136,16 @@ class GraphPage(tk.Frame):
         self.kalman = tk.Checkbutton(master=simple_field, var=self.var)
         self.kalman.pack(side=tk.RIGHT, padx=5, pady=4)
         label = ttk.Label(master=simple_field, text="Apply Kalman", font=NORMAL_FONT)
+        label.pack(side=tk.RIGHT, padx=4, pady=2)
+
+        # Plot all applied
+        simple_field = tk.Frame(master=self.parameters_container)
+        simple_field.pack(side='top', padx='10', fill=tk.BOTH, pady="5")
+        self.plot_all = tk.BooleanVar()
+        self.plot_all.set(plot_all)
+        self.plot_all_box = tk.Checkbutton(master=simple_field, var=self.plot_all)
+        self.plot_all_box.pack(side=tk.RIGHT, padx=5, pady=4)
+        label = ttk.Label(master=simple_field, text="Plot all laps", font=NORMAL_FONT)
         label.pack(side=tk.RIGHT, padx=4, pady=2)
 
         # True Point
@@ -206,6 +232,23 @@ class GraphPage(tk.Frame):
         label = ttk.Label(master=simple_field, text="Room y length", font=NORMAL_FONT)
         label.pack(side=tk.RIGHT, padx=4, pady=2)
 
+        # LAPS
+        self.simple_field = tk.Frame(master=self.parameters_container)
+        self.simple_field.pack(side='top', padx='10', fill=tk.BOTH, pady="5")
+        self.unique_laps = unique_laps
+        self.option = tk.StringVar(self)
+        self.option.set(unique_laps[0])
+        self.optionBox = tk.OptionMenu(self.simple_field, self.option, *self.unique_laps)
+        self.optionBox.pack(side=tk.RIGHT, padx=4, pady=2)
+        self.option_label = ttk.Label(master=self.simple_field, text="Devices", font=NORMAL_FONT)
+        self.option_label.pack(side=tk.RIGHT, padx=4, pady=2)
+
+        # Nr. of devices
+        self.count_field = tk.Frame(master=self.parameters_container)
+        self.count_field.pack(side='top', padx='10', fill=tk.BOTH, pady="5")
+        self.laps_count = ttk.Label(master=self.count_field, text='Amount of Devices: ' + str(len(self.unique_laps)), font=NORMAL_FONT)
+        self.laps_count.pack(side=tk.RIGHT, padx=4, pady=2)
+
         # plot figure
         canvas = FigureCanvasTkAgg(fig, self)
         canvas.get_tk_widget().pack(side=tk.LEFT, fill=tk.BOTH, expand=tk.TRUE)
@@ -217,6 +260,34 @@ class GraphPage(tk.Frame):
         global d1_coord, d2_coord, d3_coord, d4_coord, coords, true_point, room_lim_x, room_lim_y, plot_lim_x, plot_lim_y, plot_padding, kalman
 
         df = read_positions()
+        laps = list(self.unique_laps)
+        self.unique_laps = list(df['LAP'].unique())
+        if laps != self.unique_laps:
+            self.optionBox.destroy()
+            self.option_label.destroy()
+            self.optionBox = tk.OptionMenu(self.simple_field, self.option, *self.unique_laps)
+            self.optionBox.pack(side=tk.RIGHT, padx=4, pady=2)
+            self.option_label = ttk.Label(master=self.simple_field, text="Devices", font=NORMAL_FONT)
+            self.option_label.pack(side=tk.RIGHT, padx=4, pady=2)
+            self.laps_count.destroy()
+            self.laps_count = ttk.Label(master=self.count_field, text='Amount of Devices: ' + str(len(self.unique_laps)), font=NORMAL_FONT)
+            self.laps_count.pack(side=tk.RIGHT, padx=4, pady=2)
+            if self.option.get() not in self.unique_laps:
+                self.option.set(self.unique_laps[0])
+
+        # For color per lap
+        lap_dic = {}
+        lap_colors = ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c',
+                      '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1',
+                      '#000075', '#808080', '#ffffff', '#000000']
+        for lap in self.unique_laps:
+            is_LAP = df['LAP'] == lap
+            lap_dic[lap] = df[is_LAP]
+
+        is_LAP = df['LAP'] == self.option.get()
+        df = df[is_LAP]
+
+
         try:
             df = df.tail(int(self.range.get()) if int(self.range.get()) != 0 else 1)
             show_error = False if int(self.range.get()) > 0 else True
@@ -229,9 +300,29 @@ class GraphPage(tk.Frame):
         self.label.pack() if show_error else self.label.pack_forget()
 
         ax.clear()
-        df.plot(kind="scatter", legend=None, x=col_x, y=col_y, xlim=plot_lim_x, ylim=plot_lim_y, alpha=0.3,
-                color="#C5D86D",
-                marker=".", label="Predictions", ax=ax)
+
+        if self.plot_all.get():
+            for key in lap_dic:
+                color = lap_colors[0]
+                lap_colors.remove(color)
+                try:
+                    lap_dic[key] = lap_dic[key].tail(int(self.range.get()) if int(self.range.get()) != 0 else 1)
+                    show_error = False if int(self.range.get()) > 0 else True
+                except ValueError:
+                    lap_dic[key] = lap_dic[key].tail(n=1)
+                    show_error = True
+                if kalman:
+                    lap_dic[key] = kalman_filter_df(lap_dic[key])
+                x_avg = lap_dic[key][col_x].mean()
+                y_avg = lap_dic[key][col_y].mean()
+                lap_dic[key].plot(kind="scatter", x=col_x, y=col_y, xlim=plot_lim_x, ylim=plot_lim_y, alpha=1,
+                        color=color,
+                        marker=".", label=key + " Predictions", ax=ax, grid=True)
+                ax.plot(x_avg, y_avg, marker="D", color='black', label=key + " Prediction Mean", linestyle='None', markerfacecolor=color)
+        else:
+            df.plot(kind="scatter", legend=None, x=col_x, y=col_y, xlim=plot_lim_x, ylim=plot_lim_y, alpha=0.3,
+                    color="#C5D86D", grid=True,
+                    marker=".", label="Predictions", ax=ax)
 
         rect1 = patches.Rectangle((room_lim_x[0], room_lim_y[0]), room_lim_x[1], room_lim_y[1], linewidth=1,
                                   edgecolor='gray', facecolor='none', linestyle=(0, (1, 10)))
@@ -241,17 +332,21 @@ class GraphPage(tk.Frame):
 
         ax.set_aspect("equal")
         ax.plot(*true_point, marker="x", color="#D7263D", label="True Point", linestyle='None')
-        x_avg = df[col_x].mean()
-        y_avg = df[col_y].mean()
-        ax.plot(x_avg, y_avg, marker="D", color="#1B998B", label="Prediction Mean", linestyle='None')
 
-        squared_error = df.apply(lambda row: (row[col_x] - true_point[0]) ** 2 + (row[col_y] - true_point[1]) ** 2,
-                                 axis=1)
-        error = squared_error.apply(lambda se: sqrt(se))
+        if not self.plot_all.get():
+            x_avg = df[col_x].mean()
+            y_avg = df[col_y].mean()
+            ax.plot(x_avg, y_avg, marker="D", color="#1B998B", label="Prediction Mean", linestyle='None')
+
+            squared_error = df.apply(lambda row: (row[col_x] - true_point[0]) ** 2 + (row[col_y] - true_point[1]) ** 2,
+                                     axis=1)
+            error = squared_error.apply(lambda se: sqrt(se))
+            me = error.mean()
+            try:
+                ax.text(-0.4, -0.4, "ME: {:.4f}".format(me))
+            except:
+                pass
         ax.legend(bbox_to_anchor=(1, 1))
-        me = error.mean()
-        ax.text(-0.4, -0.4, "ME: {:.4f}".format(me))
-
         try:
             true_point = float(self.true_point_one.get()), float(self.true_point_two.get())
         except ValueError:
@@ -294,14 +389,6 @@ class GraphPage(tk.Frame):
         self.update()
 
 
-def read_positions():
-    df = pd.read_csv('positions.csv')
-    df["timestamp"] = df["timestamp"].astype('datetime64[ns]')
-    df.set_index("timestamp", inplace=True, drop=False)
-    df.sort_index(inplace=True)
-    return df
-
-
 def plot_results_pos(df, true_point):
     df.plot(kind="scatter", legend=None, x=col_x, y=col_y, xlim=plot_lim_x, ylim=plot_lim_y, alpha=0.3,
             color="#C5D86D",
@@ -325,11 +412,8 @@ def plot_results_pos(df, true_point):
 
     me = error.mean()
     ax.text(-0.4, -0.4, "ME: {:.4f}".format(me))
-    file = f'cropped.png'
     ax.legend(bbox_to_anchor=(1, 1))
-    # plt.savefig(file, bbox_inches='tight', dpi=300)
     return fig, ax
-    # plt.show()
 
 
 def kalman_filter_df(df):
@@ -353,8 +437,6 @@ def kalman_filter_df(df):
     return df_from_1.apply(filter, axis=1)
 
 
-pos_df = read_positions()  # not kalman applied yet
-pos_df = pos_df.tail(20)
 if kalman:
     pos_df = kalman_filter_df(pos_df)  # just kalman applied
 
