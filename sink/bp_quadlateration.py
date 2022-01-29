@@ -1,6 +1,7 @@
 import numpy as np
 from math import *
 from scipy.optimize import root
+import json
 
 
 class BpQuadlateration:
@@ -8,7 +9,6 @@ class BpQuadlateration:
     pos_A2 = (0, 0)
     pos_A3 = (0, 0)
     pos_A4 = (0, 0)
-
     n = 0
 
     def __init__(self, p_A1, p_A2, p_A3, p_A4, n):
@@ -16,11 +16,18 @@ class BpQuadlateration:
         self.pos_A2 = p_A2
         self.pos_A3 = p_A3
         self.pos_A4 = p_A4
-        self.n = n
+        with open("bp.json", 'r') as f:
+            conf = json.load(f)
+        self.n = conf['n_value']
+
 
     def get_func(self, p, rssi):
         p_x = p[0]
         p_y = p[1]
+        with open("bp.json", 'r') as f:
+            conf = json.load(f)
+        self.n = conf['n_value']
+        print(self.n)
 
         def f(x):
             return (x[0] - p_x)**2 + (x[1] - p_y)**2 - 10**((x[2] - rssi) / (5 * self.n))

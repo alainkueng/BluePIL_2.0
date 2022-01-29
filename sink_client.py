@@ -1,6 +1,7 @@
 import socket
 import time
 from run_sink import run_sink
+from configuration import start
 
 
 def get_ips():
@@ -29,7 +30,7 @@ class SinkClient:
                     s.connect((host, port))
                     self.connections[host] = s
                 except Exception as msg:
-                    time.sleep(2)
+                    time.sleep(1)
                     continue
                 print('Successful connected to ' + host + ' with port ' + str(port))
                 break
@@ -71,5 +72,5 @@ class SinkClient:
 def start_run_sink():
     run_sink()
 
-
+start()
 SinkClient().start()

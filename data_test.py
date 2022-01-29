@@ -6,12 +6,12 @@ from matplotlib import patches
 import numpy as np
 from math import sqrt
 from sink.bp_kalman import BpKalman
+import json
 
 matplotlib.use('TkAgg')
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 import matplotlib.animation as animation
-
 
 def read_positions():
     df = pd.read_csv('positions.csv')
@@ -25,25 +25,55 @@ LARGE_FONT = ("Verdana", 12)
 NORMAL_FONT = ("Verdana", 10)
 SMALL_FONT = ("Verdana", 8)
 
+def error():
+    popup = tk.Tk()
+    popup.wm_title("!")
+    label = ttk.Label(popup, text='No Data in CSV yet', font=NORMAL_FONT)
+    label.pack(side="top", fill="x", pady=10)
+    B1 = ttk.Button(popup, text="Okay", command=popup.destroy)
+    B1.pack()
+    popup.mainloop()
+    exit()
+
+try:
+    df = pd.read_csv('positions.csv')
+except Exception:
+    error()
+df = pd.read_csv('positions.csv')
+if df.empty:
+    error()
+
 fig = Figure()
 ax = fig.add_subplot(111)
 
-nokia_lap = "22052d"  # lap of the bluetooth device
+with open("bp.json") as f:
+    conf = json.load(f)
+number_of_nodes = conf["number_of_nodes"]
 
 # coordinates of the Uberteeth
-d1_coord = (0, 0)
-d2_coord = (5, 0)
-d3_coord = (0, 5)
-d4_coord = (5, 5)
+coordinates = []
+room_length = 0
+for i in range(1, number_of_nodes+1):
+    sensor = conf[f'node{i}']
+    coordinates.append((sensor["loc"][0], sensor["loc"][1]))
+    room_length = sensor["loc"][0] if sensor["loc"][0] > room_length else room_length
+    room_length = sensor["loc"][1] if sensor["loc"][1] > room_length else room_length
 
-true_point = (0, 1)
+n_value = conf['n_value']
+
+d1_coord = coordinates[0]
+d2_coord = coordinates[1]
+d3_coord = coordinates[2]
+d4_coord = coordinates[3]
+
+true_point = (conf['true_point'][0], conf['true_point'][1])
 coords = (d1_coord, d2_coord, d3_coord, d4_coord)
 
 col_x = "x"
 col_y = "y"
 
-room_lim_x = (0, 5)
-room_lim_y = (0, 5)
+room_lim_x = (0, room_length)
+room_lim_y = (0, room_length)
 
 plot_padding = 0.5
 
@@ -128,6 +158,15 @@ class GraphPage(tk.Frame):
         label = ttk.Label(master=simple_field, text="Data range", font=NORMAL_FONT)
         label.pack(side=tk.RIGHT, padx=4, pady=2)
 
+        # N-Value field
+        simple_field = tk.Frame(master=self.parameters_container)
+        simple_field.pack(side='top', padx='10', fill=tk.BOTH, pady="5")
+        self.n_value = ttk.Entry(master=simple_field, width=3, font=SMALL_FONT)
+        self.n_value.insert(0, 1.8)
+        self.n_value.pack(side=tk.RIGHT, padx=5, pady=4)
+        label = ttk.Label(master=simple_field, text="n value", font=NORMAL_FONT)
+        label.pack(side=tk.RIGHT, padx=4, pady=2)
+
         # Kalman applied
         simple_field = tk.Frame(master=self.parameters_container)
         simple_field.pack(side='top', padx='10', fill=tk.BOTH, pady="5")
@@ -160,77 +199,7 @@ class GraphPage(tk.Frame):
         label = ttk.Label(master=simple_field, text="True Point", font=NORMAL_FONT)
         label.pack(side=tk.RIGHT, padx=4, pady=2)
 
-        # d1_cord
-        simple_field = tk.Frame(master=self.parameters_container)
-        simple_field.pack(side='top', padx='10', fill=tk.BOTH, pady="5")
-        self.d1_cord_two = ttk.Entry(master=simple_field, width=3, font=SMALL_FONT)
-        self.d1_cord_two.insert(0, str(d1_coord[1]))
-        self.d1_cord_two.pack(side=tk.RIGHT, padx=5, pady=4)
-        self.d1_cord_one = ttk.Entry(master=simple_field, width=3, font=SMALL_FONT)
-        self.d1_cord_one.insert(0, str(d1_coord[0]))
-        self.d1_cord_one.pack(side=tk.RIGHT, padx=5, pady=4)
-        label = ttk.Label(master=simple_field, text="Ubertooth_1", font=NORMAL_FONT)
-        label.pack(side=tk.RIGHT, padx=4, pady=2)
 
-        # d2_cord
-        simple_field = tk.Frame(master=self.parameters_container)
-        simple_field.pack(side='top', padx='10', fill=tk.BOTH, pady="5")
-        self.d2_cord_two = ttk.Entry(master=simple_field, width=3, font=SMALL_FONT)
-        self.d2_cord_two.insert(0, str(d2_coord[1]))
-        self.d2_cord_two.pack(side=tk.RIGHT, padx=5, pady=4)
-        self.d2_cord_one = ttk.Entry(master=simple_field, width=3, font=SMALL_FONT)
-        self.d2_cord_one.insert(0, str(d2_coord[0]))
-        self.d2_cord_one.pack(side=tk.RIGHT, padx=5, pady=4)
-        label = ttk.Label(master=simple_field, text="Ubertooth_2", font=NORMAL_FONT)
-        label.pack(side=tk.RIGHT, padx=4, pady=2)
-
-        # d3_cord
-        simple_field = tk.Frame(master=self.parameters_container)
-        simple_field.pack(side='top', padx='10', fill=tk.BOTH, pady="5")
-        self.d3_cord_two = ttk.Entry(master=simple_field, width=3, font=SMALL_FONT)
-        self.d3_cord_two.insert(0, str(d3_coord[1]))
-        self.d3_cord_two.pack(side=tk.RIGHT, padx=5, pady=4)
-        self.d3_cord_one = ttk.Entry(master=simple_field, width=3, font=SMALL_FONT)
-        self.d3_cord_one.insert(0, str(d3_coord[0]))
-        self.d3_cord_one.pack(side=tk.RIGHT, padx=5, pady=4)
-        label = ttk.Label(master=simple_field, text="Ubertooth_3", font=NORMAL_FONT)
-        label.pack(side=tk.RIGHT, padx=4, pady=2)
-
-        # d4_cord
-        simple_field = tk.Frame(master=self.parameters_container)
-        simple_field.pack(side='top', padx='10', fill=tk.BOTH, pady="5")
-        self.d4_cord_two = ttk.Entry(master=simple_field, width=3, font=SMALL_FONT)
-        self.d4_cord_two.insert(0, str(d4_coord[1]))
-        self.d4_cord_two.pack(side=tk.RIGHT, padx=5, pady=4)
-        self.d4_cord_one = ttk.Entry(master=simple_field, width=3, font=SMALL_FONT)
-        self.d4_cord_one.insert(0, str(d4_coord[0]))
-        self.d4_cord_one.pack(side=tk.RIGHT, padx=5, pady=4)
-        label = ttk.Label(master=simple_field, text="Ubertooth_4", font=NORMAL_FONT)
-        label.pack(side=tk.RIGHT, padx=4, pady=2)
-
-        # x_room
-        simple_field = tk.Frame(master=self.parameters_container)
-        simple_field.pack(side='top', padx='10', fill=tk.BOTH, pady="5")
-        self.room_x_2 = ttk.Entry(master=simple_field, width=3, font=SMALL_FONT)
-        self.room_x_2.insert(0, str(room_lim_x[1]))
-        self.room_x_2.pack(side=tk.RIGHT, padx=5, pady=4)
-        self.room_x_1 = ttk.Entry(master=simple_field, width=3, font=SMALL_FONT)
-        self.room_x_1.insert(0, str(room_lim_x[0]))
-        self.room_x_1.pack(side=tk.RIGHT, padx=5, pady=4)
-        label = ttk.Label(master=simple_field, text="Room x length", font=NORMAL_FONT)
-        label.pack(side=tk.RIGHT, padx=4, pady=2)
-
-        # y_room
-        simple_field = tk.Frame(master=self.parameters_container)
-        simple_field.pack(side='top', padx='10', fill=tk.BOTH, pady="5")
-        self.room_y_2 = ttk.Entry(master=simple_field, width=3, font=SMALL_FONT)
-        self.room_y_2.insert(0, str(room_lim_y[1]))
-        self.room_y_2.pack(side=tk.RIGHT, padx=5, pady=4)
-        self.room_y_1 = ttk.Entry(master=simple_field, width=3, font=SMALL_FONT)
-        self.room_y_1.insert(0, str(room_lim_y[0]))
-        self.room_y_1.pack(side=tk.RIGHT, padx=5, pady=4)
-        label = ttk.Label(master=simple_field, text="Room y length", font=NORMAL_FONT)
-        label.pack(side=tk.RIGHT, padx=4, pady=2)
 
         # LAPS
         self.simple_field = tk.Frame(master=self.parameters_container)
@@ -257,7 +226,7 @@ class GraphPage(tk.Frame):
         self.label = ttk.Label(self, text="Somethings wrong", font=LARGE_FONT)
 
     def animate(self, i):
-        global d1_coord, d2_coord, d3_coord, d4_coord, coords, true_point, room_lim_x, room_lim_y, plot_lim_x, plot_lim_y, plot_padding, kalman
+        global  coords, true_point, room_lim_x, room_lim_y, plot_lim_x, plot_lim_y, plot_padding, kalman, n_value
 
         df = read_positions()
         laps = list(self.unique_laps)
@@ -348,44 +317,32 @@ class GraphPage(tk.Frame):
                 pass
         ax.legend(bbox_to_anchor=(1, 1))
         try:
+            n_value = float(self.n_value.get())
+        except ValueError:
+            n_value = 1.8
+        try:
             true_point = float(self.true_point_one.get()), float(self.true_point_two.get())
         except ValueError:
             true_point = 0, 0
-
-        try:
-            d1_coord = float(self.d1_cord_one.get()), float(self.d1_cord_two.get())
-        except ValueError:
-            d1_coord = 0, 0
-
-        try:
-            d2_coord = float(self.d2_cord_one.get()), float(self.d2_cord_two.get())
-        except ValueError:
-            d2_coord = 0, 0
-
-        try:
-            d3_coord = float(self.d3_cord_one.get()), float(self.d3_cord_two.get())
-        except ValueError:
-            d3_coord = 0, 0
-
-        try:
-            d4_coord = float(self.d4_cord_one.get()), float(self.d4_cord_two.get())
-        except ValueError:
-            d4_coord = 0, 0
-
-        try:
-            room_lim_x = float(self.room_x_1.get()), float(self.room_x_2.get())
-        except ValueError:
-            room_lim_x = 0, 0
-
-        try:
-            room_lim_y = float(self.room_y_1.get()), float(self.room_y_2.get())
-        except ValueError:
-            room_lim_y = 0, 0
 
         kalman = self.var.get()
         coords = (d1_coord, d2_coord, d3_coord, d4_coord)
         plot_lim_x = (room_lim_x[0] - plot_padding, room_lim_x[1] + plot_padding)
         plot_lim_y = (room_lim_y[0] - plot_padding, room_lim_y[1] + plot_padding)
+
+        try:
+            conf_file = open("bp.json", "r")
+            conf = json.load(conf_file)
+            conf_file.close()
+
+            conf['n_value'] = float(self.n_value.get())
+
+            conf_file = open("bp.json", "w")
+            json.dump(conf, conf_file, indent=4)
+            conf_file.close()
+        except Exception:
+            pass
+
         self.update()
 
 
