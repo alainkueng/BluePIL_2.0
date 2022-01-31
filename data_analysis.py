@@ -155,7 +155,7 @@ class GraphPage(tk.Frame):
         self.range = ttk.Entry(master=simple_field, width=3, font=SMALL_FONT)
         self.range.insert(0, '40')
         self.range.pack(side=tk.RIGHT, padx=5, pady=4)
-        label = ttk.Label(master=simple_field, text="Data range", font=NORMAL_FONT)
+        label = ttk.Label(master=simple_field, text="Last points", font=NORMAL_FONT)
         label.pack(side=tk.RIGHT, padx=4, pady=2)
 
         # N-Value field
@@ -290,7 +290,7 @@ class GraphPage(tk.Frame):
                 ax.plot(x_avg, y_avg, marker="D", color='black', label=key + " Prediction Mean", linestyle='None', markerfacecolor=color)
         else:
             df.plot(kind="scatter", legend=None, x=col_x, y=col_y, xlim=plot_lim_x, ylim=plot_lim_y, alpha=0.3,
-                    color="#C5D86D", grid=True,
+                    color="#e6194b", grid=True,
                     marker=".", label="Predictions", ax=ax)
 
         rect1 = patches.Rectangle((room_lim_x[0], room_lim_y[0]), room_lim_x[1], room_lim_y[1], linewidth=1,
@@ -305,7 +305,7 @@ class GraphPage(tk.Frame):
         if not self.plot_all.get():
             x_avg = df[col_x].mean()
             y_avg = df[col_y].mean()
-            ax.plot(x_avg, y_avg, marker="D", color="#1B998B", label="Prediction Mean", linestyle='None')
+            ax.plot(x_avg, y_avg, marker="D", color='black', label="Prediction Mean", linestyle='None', markerfacecolor="#e6194b")
 
             squared_error = df.apply(lambda row: (row[col_x] - true_point[0]) ** 2 + (row[col_y] - true_point[1]) ** 2,
                                      axis=1)
