@@ -70,6 +70,8 @@ class BpSink:
 
         self._sink_stream = BpSinkStream(streams_of_streams, positions, 1.8, (0.5, 0, 0.5, 0))
         csvfile = open(f'positions.csv', 'w')
+        lapfile = open(f'laps.csv', 'w')
+        lapfile.close()
         self.csvfiles.append(csvfile)
         csvcols = list(["x", "y", "timestamp", "LAP"])
         csvwriter = csv.writer(csvfile)

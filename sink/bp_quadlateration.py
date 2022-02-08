@@ -16,17 +16,14 @@ class BpQuadlateration:
         self.pos_A2 = p_A2
         self.pos_A3 = p_A3
         self.pos_A4 = p_A4
-        with open("bp.json", 'r') as f:
-            conf = json.load(f)
-        self.n = conf['n_value']
-
+        self.n = n
 
     def get_func(self, p, rssi):
         p_x = p[0]
         p_y = p[1]
         with open("bp.json", 'r') as f:
             conf = json.load(f)
-        self.n = conf['n_value']
+        self.n = conf['n_value']  # takes the n-value from json file since it could change
         print(self.n)
 
         def f(x):

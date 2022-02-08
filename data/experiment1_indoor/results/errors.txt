@@ -1,4 +1,0 @@
-mean, nlls-kalman: ME 1.0749437731219889
-max-mean, nlls-kalman: ME 1.061109180509463
-max-median, nlls-kalman: ME 1.0819838078112944
-max-mean, nlls: ME 1.0672318936791467

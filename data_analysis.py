@@ -9,7 +9,7 @@ from sink.bp_kalman import BpKalman
 import json
 
 matplotlib.use('TkAgg')
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import matplotlib.animation as animation
 
@@ -87,6 +87,7 @@ pos_df = read_positions()  # not kalman applied yet
 
 unique_laps = pos_df['LAP'].unique()
 is_LAP = pos_df['LAP'] == unique_laps[0]
+sensed_laps = sum(1 for line in open('laps.csv'))
 
 pos_df = pos_df.tail(20)
 
@@ -199,8 +200,6 @@ class GraphPage(tk.Frame):
         label = ttk.Label(master=simple_field, text="True Point", font=NORMAL_FONT)
         label.pack(side=tk.RIGHT, padx=4, pady=2)
 
-
-
         # LAPS
         self.simple_field = tk.Frame(master=self.parameters_container)
         self.simple_field.pack(side='top', padx='10', fill=tk.BOTH, pady="5")
@@ -215,8 +214,29 @@ class GraphPage(tk.Frame):
         # Nr. of devices
         self.count_field = tk.Frame(master=self.parameters_container)
         self.count_field.pack(side='top', padx='10', fill=tk.BOTH, pady="5")
-        self.laps_count = ttk.Label(master=self.count_field, text='Amount of Devices: ' + str(len(self.unique_laps)), font=NORMAL_FONT)
+        self.laps_count = ttk.Label(master=self.count_field, text='Positioned Devices: ' + str(len(self.unique_laps)), font=NORMAL_FONT)
         self.laps_count.pack(side=tk.RIGHT, padx=4, pady=2)
+
+        # Nr. of devices
+        self.sensed_field = tk.Frame(master=self.parameters_container)
+        self.sensed_field.pack(side='top', padx='10', fill=tk.BOTH, pady="5")
+        self.laps_sensed = ttk.Label(master=self.sensed_field,
+                                    text='Sensed Devices: ' + str(sum(1 for line in open('laps.csv'))),
+                                    font=NORMAL_FONT)
+        self.laps_sensed.pack(side=tk.RIGHT, padx=4, pady=2)
+
+        # Devices Laps sensed
+        lines=[]
+        for line in open('laps.csv'):
+            lines.append(line)
+        self.scroll_bar = tk.Scrollbar(master=self.parameters_container)
+        self.scroll_bar.pack(side='right', padx='10', fill=tk.Y, pady="5")
+        self.laps_list = tk.Listbox(master=self.parameters_container, yscrollcommand=self.scroll_bar.set,
+                                    font=NORMAL_FONT, width='25')
+        for line in lines:
+            self.laps_list.insert(tk.END, line)
+        self.laps_list.pack(side=tk.LEFT, fill=tk.BOTH,  padx='10', pady="5")
+        self.scroll_bar.config(command=self.laps_list.yview)
 
         # plot figure
         canvas = FigureCanvasTkAgg(fig, self)
@@ -226,7 +246,7 @@ class GraphPage(tk.Frame):
         self.label = ttk.Label(self, text="Somethings wrong", font=LARGE_FONT)
 
     def animate(self, i):
-        global  coords, true_point, room_lim_x, room_lim_y, plot_lim_x, plot_lim_y, plot_padding, kalman, n_value
+        global  coords, true_point, room_lim_x, room_lim_y, plot_lim_x, plot_lim_y, plot_padding, kalman, n_value, sensed_laps
 
         df = read_positions()
         laps = list(self.unique_laps)
@@ -239,10 +259,32 @@ class GraphPage(tk.Frame):
             self.option_label = ttk.Label(master=self.simple_field, text="Devices", font=NORMAL_FONT)
             self.option_label.pack(side=tk.RIGHT, padx=4, pady=2)
             self.laps_count.destroy()
-            self.laps_count = ttk.Label(master=self.count_field, text='Amount of Devices: ' + str(len(self.unique_laps)), font=NORMAL_FONT)
+            self.laps_count = ttk.Label(master=self.count_field, text='Positioned Devices: ' + str(len(self.unique_laps)), font=NORMAL_FONT)
             self.laps_count.pack(side=tk.RIGHT, padx=4, pady=2)
+
+
             if self.option.get() not in self.unique_laps:
                 self.option.set(self.unique_laps[0])
+
+
+        if sensed_laps < sum(1 for line in open('laps.csv')):
+            self.laps_sensed.destroy()
+            self.laps_sensed = ttk.Label(master=self.sensed_field,
+                                         text='Sensed Devices: ' + str(sum(1 for line in open('laps.csv'))),
+                                         font=NORMAL_FONT)
+            self.laps_sensed.pack(side=tk.RIGHT, padx=4, pady=2)
+            self.laps_list.destroy()
+            lines = []
+            for line in open('laps.csv'):
+                lines.append(line)
+            self.laps_list = tk.Listbox(master=self.parameters_container, yscrollcommand=self.scroll_bar.set,
+                                        font=NORMAL_FONT, width='25')
+            for line in lines:
+                self.laps_list.insert(tk.END, line)
+            self.laps_list.pack(side=tk.LEFT, fill=tk.BOTH, padx='10', pady="5")
+            self.scroll_bar.config(command=self.laps_list.yview)
+            sensed_laps = sum(1 for line in open('laps.csv'))
+
 
         # For color per lap
         lap_dic = {}
@@ -256,7 +298,6 @@ class GraphPage(tk.Frame):
         is_LAP = df['LAP'] == self.option.get()
         df = df[is_LAP]
 
-
         try:
             df = df.tail(int(self.range.get()) if int(self.range.get()) != 0 else 1)
             show_error = False if int(self.range.get()) > 0 else True
@@ -266,6 +307,7 @@ class GraphPage(tk.Frame):
 
         if kalman:
             df = kalman_filter_df(df)  # just kalman applied
+
         self.label.pack() if show_error else self.label.pack_forget()
 
         ax.clear()
@@ -274,6 +316,8 @@ class GraphPage(tk.Frame):
             for key in lap_dic:
                 color = lap_colors[0]
                 lap_colors.remove(color)
+
+
                 try:
                     lap_dic[key] = lap_dic[key].tail(int(self.range.get()) if int(self.range.get()) != 0 else 1)
                     show_error = False if int(self.range.get()) > 0 else True
@@ -282,6 +326,7 @@ class GraphPage(tk.Frame):
                     show_error = True
                 if kalman:
                     lap_dic[key] = kalman_filter_df(lap_dic[key])
+
                 x_avg = lap_dic[key][col_x].mean()
                 y_avg = lap_dic[key][col_y].mean()
                 lap_dic[key].plot(kind="scatter", x=col_x, y=col_y, xlim=plot_lim_x, ylim=plot_lim_y, alpha=1,
@@ -343,6 +388,7 @@ class GraphPage(tk.Frame):
         except Exception:
             pass
 
+
         self.update()
 
 
@@ -400,6 +446,6 @@ if kalman:
 fig, ax = plot_results_pos(pos_df, true_point)
 
 app = GUI()
-app.geometry("1280x720")
-ani = animation.FuncAnimation(fig, app.frames[GraphPage].animate, interval=500)
+app.geometry("1350x720")
+ani = animation.FuncAnimation(fig, app.frames[GraphPage].animate, interval=750)
 app.mainloop()

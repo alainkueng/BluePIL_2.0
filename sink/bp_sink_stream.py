@@ -1,5 +1,6 @@
 import asyncio
 import concurrent
+import csv
 import dataclasses
 from dataclasses import dataclass
 from datetime import datetime
@@ -153,9 +154,12 @@ class BpSinkStream:
          for idx, strm in enumerate(self._streams_of_streams_for_laps)]
 
     def _register_rssi_stream(self, lap, idx, stream):
-        #print("Registering stream {0} for LAP {1}".format(idx, lap))
+        print("Registering stream {0} for LAP {1}".format(idx, lap))
         if lap not in self._streams_for_laps:
             self._streams_for_laps[lap] = [None] * _NUM_UBERTEETH
+            csvfile = open(f'laps.csv', 'a')
+            csvfile.write(lap +'\n')
+            csvfile.close()
         self._streams_for_laps[lap][idx] = stream
         if None not in self._streams_for_laps[lap]:
             self._merge_rssi_streams(lap)
@@ -167,7 +171,7 @@ class BpSinkStream:
             t1 = we.timestamp
             dt = (t1 - t0).total_seconds()
             return position.Input(we.values, dt, t1)
-        #print("Starting positioning stream for LAP {0}".format(lap))
+        print("Starting positioning stream for LAP {0}".format(lap))
         merged = sz.Stream.merge_rssi_streams(*self._streams_for_laps[lap]) \
             .sliding_window(2,  return_partial=False) \
             .map(mergeOutputsToPositioningInput) \
