@@ -9,8 +9,8 @@ port = 5560
 
 class Server:
     def __init__(self):
-        self.s = self.setupServer()
-        self.p = multiprocessing.Process(target=start_node)
+        self.socket = self.setupServer()
+        self.node_process = multiprocessing.Process(target=start_node)
 
     def setupServer(self):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -31,9 +31,9 @@ class Server:
                 break
 
     def setupConnection(self):
-        self.s.listen(1)
-        conn, address = self.s.accept()
-        print('connected to: ' + address[0] + ':' + str(address[1]))
+        self.socket.listen(1)
+        conn, address = self.socket.accept()
+        print('Connected to: ' + address[0] + ':' + str(address[1]))
         return conn
 
     def dataTransfer(self,conn):
@@ -42,24 +42,24 @@ class Server:
             # receive
             data = conn.recv(1024)
             data = data.decode('utf-8')
-            # split data to seperate command from the rest of data
+            # split data to separate command from the rest of data
             data_message = data.split(' ', 1)
             command = data_message[0]
-            if self.p.is_alive():
-                self.p.terminate()
+            # kills process if new client connects, ensures if something goes wrong the process can still be restarted
+            if self.node_process.is_alive():
+                self.node_process.terminate()
+            # different commands
             if command == 'START_NODE':
                 reply = 'Starting node..'
                 conn.sendall(str.encode(reply))
-                self.p = multiprocessing.Process(target=start_node)
-                self.p.start()
+                self.node_process = multiprocessing.Process(target=start_node)
+                self.node_process.start()
                 break
             elif command == 'EXIT':
                 break
             elif command == 'KILL':
-                self.s.close()
+                self.socket.close()
                 break
-            elif command == 'INFO':
-                conn.sendall(str.encode('Node terminated {0}'.format(not self.p.is_alive())))
             else:
                 reply = 'Unknown Command'
                 conn.sendall(str.encode(reply))

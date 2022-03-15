@@ -49,6 +49,7 @@ class SinkClient:
                 break
             elif command == 'START_NODE':
                 self.send(command)
+                # print(time.time())
                 time.sleep(2)
                 print('starting process')
                 start_run_sink()
@@ -72,5 +73,6 @@ class SinkClient:
 def start_run_sink():
     sink()
 
+# print(time.time())
 start()
 SinkClient().start()
