@@ -1,6 +1,6 @@
 {
     "mode": "POSITIONING",
-    "n_value": 2.0,
+    "n_value": 1.8,
     "node1": {
         "ip": "192.168.1.101",
         "loc": [
@@ -29,7 +29,6 @@
             4.0
         ]
     },
-    "number_of_nodes": 4,
     "true_point": [
         2.0,
         2.0

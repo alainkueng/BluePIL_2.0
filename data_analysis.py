@@ -56,16 +56,17 @@ ax = fig.add_subplot()
 # reads the current configuration of BluePIL
 with open("bp.json") as f:
     conf = json.load(f)
-number_of_nodes = conf["number_of_nodes"]
+
 
 # coordinates of the Uberteeth
 coordinates = []
-room_length = 0
-for i in range(1, number_of_nodes + 1):
+x_room_length = 0
+y_room_length = 0
+for i in range(1, 5):
     sensor = conf[f'node{i}']
     coordinates.append((sensor["loc"][0], sensor["loc"][1]))
-    room_length = sensor["loc"][0] if sensor["loc"][0] > room_length else room_length
-    room_length = sensor["loc"][1] if sensor["loc"][1] > room_length else room_length
+    x_room_length = sensor["loc"][0] if sensor["loc"][0] > x_room_length else x_room_length
+    y_room_length = sensor["loc"][1] if sensor["loc"][1] > y_room_length else y_room_length
 # n coefficient
 n_value = conf['n_value']
 
@@ -81,8 +82,8 @@ col_x = "x"
 col_y = "y"
 
 # room length
-room_lim_x = (0, room_length)
-room_lim_y = (0, room_length)
+room_lim_x = (0, x_room_length)
+room_lim_y = (0, y_room_length)
 
 # plot padding
 plot_padding = 0.5
@@ -478,5 +479,5 @@ fig, ax = plot_results_pos(pos_df, true_point)
 app = GUI()
 app.geometry("1350x720")
 # interval set for polling
-ani = animation.FuncAnimation(fig, app.frames[GraphPage].animate, interval=100)
+ani = animation.FuncAnimation(fig, app.frames[GraphPage].animate, interval=500)
 app.mainloop()
