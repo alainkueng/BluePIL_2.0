@@ -169,7 +169,7 @@ class GraphPage(tk.Frame):
         self.range = ttk.Entry(master=simple_field, width=3, font=SMALL_FONT)
         self.range.insert(0, '20')
         self.range.pack(side=tk.RIGHT, padx=5, pady=4)
-        label = ttk.Label(master=simple_field, text="Last points", font=NORMAL_FONT)
+        label = ttk.Label(master=simple_field, text="Last Points", font=NORMAL_FONT)
         label.pack(side=tk.RIGHT, padx=4, pady=2)
 
         # N-Value field
@@ -178,7 +178,7 @@ class GraphPage(tk.Frame):
         self.n_value = ttk.Entry(master=simple_field, width=3, font=SMALL_FONT)
         self.n_value.insert(0, n_value)
         self.n_value.pack(side=tk.RIGHT, padx=5, pady=4)
-        label = ttk.Label(master=simple_field, text="n value", font=NORMAL_FONT)
+        label = ttk.Label(master=simple_field, text="n Coefficient", font=NORMAL_FONT)
         label.pack(side=tk.RIGHT, padx=4, pady=2)
 
         # Kalman applied
@@ -198,7 +198,7 @@ class GraphPage(tk.Frame):
         self.plot_all.set(plot_all)
         self.plot_all_box = tk.Checkbutton(master=simple_field, var=self.plot_all)
         self.plot_all_box.pack(side=tk.RIGHT, padx=5, pady=4)
-        label = ttk.Label(master=simple_field, text="Plot all laps", font=NORMAL_FONT)
+        label = ttk.Label(master=simple_field, text="Plot All LAPs", font=NORMAL_FONT)
         label.pack(side=tk.RIGHT, padx=4, pady=2)
 
         # True Point

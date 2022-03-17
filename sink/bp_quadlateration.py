@@ -5,26 +5,22 @@ import json
 
 
 class BpQuadlateration:
-    pos_A1 = (0, 0)
-    pos_A2 = (0, 0)
-    pos_A3 = (0, 0)
-    pos_A4 = (0, 0)
-    n = 0
-
-    def __init__(self, p_A1, p_A2, p_A3, p_A4, n):
+    def __init__(self, p_A1, p_A2, p_A3, p_A4):
         self.pos_A1 = p_A1
         self.pos_A2 = p_A2
         self.pos_A3 = p_A3
         self.pos_A4 = p_A4
-        self.n = n
+        with open("bp.json", 'r') as f:
+            conf = json.load(f)
+        self.n = conf['n_value']
 
     def get_func(self, p, rssi):
         p_x = p[0]
         p_y = p[1]
         with open("bp.json", 'r') as f:
             conf = json.load(f)
-        self.n = conf['n_value']  # takes the n-value from json file since it could change
-        print(self.n)
+        self.n = conf['n_value']
+
 
         def f(x):
             return (x[0] - p_x)**2 + (x[1] - p_y)**2 - 10**((x[2] - rssi) / (5 * self.n))
