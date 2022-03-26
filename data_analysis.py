@@ -98,7 +98,7 @@ pos_df = read_positions()  # not kalman applied yet
 # unique laps of the positions file
 unique_laps = pos_df['LAP'].unique()
 is_LAP = pos_df['LAP'] == unique_laps[0]
-sensed_laps = sum(1 for line in open('laps.csv'))
+sensed_laps = sum(1 for line in open('laps_exp3.csv'))
 
 # takes the last 20 points
 pos_df = pos_df.tail(20)
@@ -235,13 +235,13 @@ class GraphPage(tk.Frame):
         self.sensed_field = tk.Frame(master=self.parameters_container)
         self.sensed_field.pack(side='top', padx='10', fill=tk.BOTH, pady="5")
         self.laps_sensed = ttk.Label(master=self.sensed_field,
-                                     text='Sensed Devices: ' + str(sum(1 for line in open('laps.csv'))),
+                                     text='Sensed Devices: ' + str(sum(1 for line in open('laps_exp3.csv'))),
                                      font=NORMAL_FONT)
         self.laps_sensed.pack(side=tk.RIGHT, padx=4, pady=2)
 
         # Devices Laps sensed
         lines = []
-        for line in open('laps.csv'):
+        for line in open('laps_exp3.csv'):
             lines.append(line)
         self.scroll_bar = tk.Scrollbar(master=self.parameters_container)
         self.scroll_bar.pack(side='right', padx='10', fill=tk.Y, pady="5")
@@ -285,17 +285,17 @@ class GraphPage(tk.Frame):
                 self.option.set(self.unique_laps[0])
 
         # reset if the amount of sensed laps changed
-        if sensed_laps < sum(1 for line in open('laps.csv')):
+        if sensed_laps < sum(1 for line in open('laps_exp3.csv')):
             # reset the number
             self.laps_sensed.destroy()
             self.laps_sensed = ttk.Label(master=self.sensed_field,
-                                         text='Sensed Devices: ' + str(sum(1 for line in open('laps.csv'))),
+                                         text='Sensed Devices: ' + str(sum(1 for line in open('laps_exp3.csv'))),
                                          font=NORMAL_FONT)
             self.laps_sensed.pack(side=tk.RIGHT, padx=4, pady=2)
             # reset the list with the names
             self.laps_list.destroy()
             lines = []
-            for line in open('laps.csv'):
+            for line in open('laps_exp3.csv'):
                 lines.append(line)
             self.laps_list = tk.Listbox(master=self.parameters_container, yscrollcommand=self.scroll_bar.set,
                                         font=NORMAL_FONT, width='25')
@@ -303,7 +303,7 @@ class GraphPage(tk.Frame):
                 self.laps_list.insert(tk.END, line)
             self.laps_list.pack(side=tk.LEFT, fill=tk.BOTH, padx='10', pady="5")
             self.scroll_bar.config(command=self.laps_list.yview)
-            sensed_laps = sum(1 for line in open('laps.csv'))
+            sensed_laps = sum(1 for line in open('laps_exp3.csv'))
 
         # For color per lap
         lap_dic = {}
@@ -453,7 +453,7 @@ def kalman_filter_df(df):
     row1 = df.iloc()[0]
     x = row1[col_x]
     y = row1[col_y]
-
+    pd.set_option('mode.chained_assignment', None)
     kalman_filter = BpKalman(np.array([x, 0, y, 0]))
 
     df["t-1"] = df["timestamp"].shift(1)

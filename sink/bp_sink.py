@@ -68,7 +68,7 @@ class BpSink:
         streams_of_streams = [connection.stream_of_streams for connection in self._ubertooth_connections]
         positions = [connection.position for connection in self._ubertooth_connections]
 
-        self._sink_stream = BpSinkStream(streams_of_streams, positions, 1.8, (0.5, 0, 0.5, 0))
+        self._sink_stream = BpSinkStream(streams_of_streams, positions, (0.5, 0, 0.5, 0))
         csvfile = open(f'positions.csv', 'w')
         lapfile = open(f'laps.csv', 'w')
         lapfile.close()

@@ -1,6 +1,6 @@
 {
     "mode": "POSITIONING",
-    "n_value": 1.8,
+    "n_value": 1.2,
     "node1": {
         "ip": "192.168.1.101",
         "loc": [

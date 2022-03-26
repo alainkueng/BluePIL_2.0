@@ -20,8 +20,7 @@ def sink():
 
     sensor_ips = []
     sensor_locs = []
-    number_of_nodes = conf["number_of_nodes"]
-    for i in range(1, number_of_nodes+1):
+    for i in range(1, 5):
         sensorconf = conf[f'node{i}']
         ip = sensorconf["ip"]
         loc = sensorconf["loc"]

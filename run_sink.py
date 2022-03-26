@@ -2,7 +2,7 @@ import socket
 import time
 from sink_connection import sink
 from configuration import start
-
+from datetime import datetime
 
 def get_ips():
     import json
@@ -49,9 +49,9 @@ class SinkClient:
                 break
             elif command == 'START_NODE':
                 self.send(command)
-                # print(time.time())
                 time.sleep(2)
                 print('starting process')
+                #print(datetime.now())
                 start_run_sink()
                 print('Ending process, please restart Application')
                 break
@@ -73,6 +73,8 @@ class SinkClient:
 def start_run_sink():
     sink()
 
-# print(time.time())
+
+#print(datetime.now())
 start()
+#print(datetime.now())
 SinkClient().start()

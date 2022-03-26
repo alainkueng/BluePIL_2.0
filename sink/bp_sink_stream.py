@@ -105,8 +105,8 @@ class position(sz.Stream):
         position: (float, float)
         timestamp: datetime
 
-    def __init__(self, upstream, positions, n, initial_x, *args, **kwargs):
-        self._quad = BpQuadlateration(*positions, n)
+    def __init__(self, upstream, positions, initial_x, *args, **kwargs):
+        self._quad = BpQuadlateration(*positions)
         self._kalman = BpKalman(initial_x)
         self._dim = len(positions)
 
@@ -140,14 +140,13 @@ class position(sz.Stream):
 
 class BpSinkStream:
 
-    def __init__(self, streams_of_streams_for_laps, positions, n, initial_x):
+    def __init__(self, streams_of_streams_for_laps, positions, initial_x):
         self._streams_for_laps = {}
         self._merged_streams_for_laps = {}
         self._all_streams = sz.Stream()
 
         self._streams_of_streams_for_laps = streams_of_streams_for_laps
         self._positions = positions
-        self._n = n
         self._initial_x = initial_x
 
         [strm.sink(lambda lap_n_stream, i=idx: self._register_rssi_stream(lap_n_stream[0], i, lap_n_stream[1]))
@@ -175,7 +174,7 @@ class BpSinkStream:
         merged = sz.Stream.merge_rssi_streams(*self._streams_for_laps[lap]) \
             .sliding_window(2,  return_partial=False) \
             .map(mergeOutputsToPositioningInput) \
-            .position(self._positions, self._n, self._initial_x)
+            .position(self._positions, self._initial_x)
         self._merged_streams_for_laps[lap] = merged
 
         def to_dict_with_lap(x, lap):

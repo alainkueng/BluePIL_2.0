@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import numpy as np
 from math import *
 from scipy.optimize import root
@@ -38,7 +40,7 @@ class BpQuadlateration:
         f2, df2 = self.get_func(self.pos_A2, rssi2)
         f3, df3 = self.get_func(self.pos_A3, rssi3)
         f4, df4 = self.get_func(self.pos_A4, rssi4)
-
+        print(self.n, datetime.now())
         def func(x):
             f = [f1(x), f2(x), f3(x), f4(x)]
             df = [df1(x), df2(x), df3(x), df4(x)]
